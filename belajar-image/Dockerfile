@@ -1,0 +1,4 @@
+FROM ubuntu:latest
+LABEL maintainer="adindamiza6@gmail.com"
+RUN apt-get update
+CMD [ "echo","Hello, dari Container baru saya !" ]

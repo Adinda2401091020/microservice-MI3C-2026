@@ -1,0 +1,6 @@
+FROM ubuntu:latest
+LABEL maintainer="adindamiza6@gmail.com"
+RUN apt-get update
+WORKDIR /home/coba
+RUN echo "Hallo saya dari Container 4" > file4.txt
+CMD [ "echo","Hello, dari Container keempat saya !" ]
