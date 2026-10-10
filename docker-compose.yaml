@@ -1,14 +1,43 @@
-version: '3'
-services:
-  web:
-    image: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./web:/usr/share/nginx/html
+version: '3.1'
 
-  db:
-    image: mysql
+services:
+
+  webserver:
+    image: nginx:latest
+    container_name: my_nginx_app
+    ports:
+      -"8089:80"
+    networks:
+      - app-network
+
+  database:
+    image: mysql:8.0
+    container_name: my_mysql_db
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=myapp
+      - MYSQL_ROOT_PASSWORD: root123
+      - MYSQL_DATABASE: mydb_new
+    ports:
+      -"3307:3306"
+    volumes:
+      -mysql_data:var/lib/mysql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: my_phpmyadmin
+    restart: always
+    ports:
+      -"8081:80"
+    environment:
+      - PHA_HOST: database
+      - MYSQL_ROOT_PASSWORD: root123
+    networks:
+      - app-network
+
+  volumes:
+    mysql_data:
+
+  networks:
+    app-network:
+      - driver: bridge
