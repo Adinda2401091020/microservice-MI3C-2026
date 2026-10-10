@@ -1,12 +1,11 @@
 version: '3.1'
 
 services:
-
   webserver:
     image: nginx:latest
     container_name: my_nginx_app
     ports:
-      -"8089:80"
+      - "8089:80"
     networks:
       - app-network
 
@@ -14,12 +13,12 @@ services:
     image: mysql:8.0
     container_name: my_mysql_db
     environment:
-      - MYSQL_ROOT_PASSWORD: root123
-      - MYSQL_DATABASE: mydb_new
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: mydb_new
     ports:
-      -"3307:3306"
+      - "3307:3306"
     volumes:
-      -mysql_data:var/lib/mysql
+      - mysql_data:/var/lib/mysql
     networks:
       - app-network
 
@@ -28,16 +27,16 @@ services:
     container_name: my_phpmyadmin
     restart: always
     ports:
-      -"8081:80"
+      - "8081:80"
     environment:
-      - PHA_HOST: database
-      - MYSQL_ROOT_PASSWORD: root123
+      PMA_HOST: database
+      MYSQL_ROOT_PASSWORD: root123
     networks:
       - app-network
 
-  volumes:
-    mysql_data:
+volumes:
+  mysql_data:
 
-  networks:
-    app-network:
-      - driver: bridge
+networks:
+  app-network:
+    driver: bridge
